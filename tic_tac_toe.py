@@ -17,17 +17,24 @@ def print_board():
     print('\n')
     
 def check():
-    return any(
-    [[d[1], d[2], d[3]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
-    [d[4], d[5], d[6]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
-    [d[7], d[8], d[9]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
+    win =  any(
+        [[d[1], d[2], d[3]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
+        [d[4], d[5], d[6]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
+        [d[7], d[8], d[9]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
 
-    [d[1], d[4], d[7]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
-    [d[2], d[5], d[8]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
-    [d[3], d[6], d[9]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
+        [d[1], d[4], d[7]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
+        [d[2], d[5], d[8]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
+        [d[3], d[6], d[9]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
 
-    [d[3], d[5], d[7]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
-    [d[1], d[5], d[9]] in (['X', 'X', 'X'], ['O', 'O', 'O'])])
+        [d[3], d[5], d[7]] in (['X', 'X', 'X'], ['O', 'O', 'O']),
+        [d[1], d[5], d[9]] in (['X', 'X', 'X'], ['O', 'O', 'O'])])
+    if win == True:
+        return True
+    else:
+        if set([d[1], d[2], d[3], d[4], d[5], d[6], d[7], d[8], d[9]]) == {'X','O'}:
+            return "tie"
+            play_again()
+    
     
 def player_name_sym():
     global player1, player2
@@ -73,7 +80,6 @@ def play_game():
     player2_turn = True
 
     while control == True:
-        print(f"{player1}, you will play with {players[player1]} and {player2} will play with {players[player2]}.")
         print_board()
         while player1_turn == True:
             try:
@@ -86,7 +92,10 @@ def play_game():
                                 control, player2_turn = False, False
                                 print_board()
                                 print(f"Congratulations, {player1}! You won!")
-                                
+                            elif check() == 'tie':
+                                control, player2_turn = False, False
+                                print_board()
+                                print("It's a tie!")                                
             except ValueError:
                 print("Please, choose a valid number.")
 
@@ -102,8 +111,12 @@ def play_game():
                                 control, player1_turn = False, False
                                 print_board()
                                 print(f"Congratulations, {player2}! You won!")
-                                
+                            elif check() == 'tie':
+                                control, player1_turn = False, False
+                                print_board()
+                                print("It's a tie!")                                
             except ValueError:
                 print("Please, choose a valid number.")
     
     play_again()
+    
